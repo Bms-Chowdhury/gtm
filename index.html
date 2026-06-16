@@ -191,6 +191,35 @@
             border-radius: 50%;
             animation: pulse-soft 1s infinite;
         }
+
+        /* Test buttons container */
+        .test-buttons-container {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px dashed #94a3b8;
+        }
+        .test-btn {
+            transition: all 0.2s ease;
+            font-size: 0.7rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            color: #1e293b;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #94a3b8;
+        }
+        .test-btn.ecommerce { border-color: #3b82f6; color: #1d4ed8; }
+        .test-btn.ecommerce:hover { background: #eff6ff; }
+        .test-btn.lead { border-color: #8b5cf6; color: #7c3aed; }
+        .test-btn.lead:hover { background: #f5f3ff; }
+        .test-btn.user { border-color: #10b981; color: #059669; }
+        .test-btn.user:hover { background: #ecfdf5; }
     </style>
 </head>
 <body>
@@ -206,7 +235,202 @@
     <script>
         window.dataLayer = window.dataLayer || [];
 
-        // Helper to push events
+        // ==========================================
+        // YOUR TRACKING FUNCTIONS
+        // ==========================================
+
+        /* PAGE VIEW */
+        function trackPageView() {
+          dataLayer.push({
+            event: "page_view",
+            page_type: "landing"
+          });
+          console.log('📊 [DataLayer] page_view', { page_type: "landing" });
+        }
+
+        /* VIEW ITEM */
+        function trackViewItem() {
+          dataLayer.push({
+            event: "view_item",
+            ecommerce: {
+              currency: "USD",
+              value: 49.99,
+              items: [{
+                item_id: "SKU_001",
+                item_name: "Wireless Headphones",
+                item_category: "Electronics",
+                item_brand: "DemoBrand",
+                price: 49.99
+              }]
+            }
+          });
+          console.log('📊 [DataLayer] view_item', { ecommerce: { currency: "USD", value: 49.99, items: [{ item_id: "SKU_001" }] } });
+        }
+
+        /* ADD TO CART */
+        function trackAddToCart() {
+          dataLayer.push({
+            event: "add_to_cart",
+            ecommerce: {
+              currency: "USD",
+              value: 49.99,
+              items: [{
+                item_id: "SKU_001",
+                item_name: "Wireless Headphones",
+                item_category: "Electronics",
+                item_brand: "DemoBrand",
+                price: 49.99,
+                quantity: 1
+              }]
+            }
+          });
+          console.log('📊 [DataLayer] add_to_cart', { ecommerce: { currency: "USD", value: 49.99, items: [{ item_id: "SKU_001", quantity: 1 }] } });
+        }
+
+        /* REMOVE FROM CART */
+        function trackRemoveFromCart() {
+          dataLayer.push({
+            event: "remove_from_cart",
+            ecommerce: {
+              currency: "USD",
+              value: 49.99,
+              items: [{
+                item_id: "SKU_001",
+                item_name: "Wireless Headphones",
+                price: 49.99,
+                quantity: 1
+              }]
+            }
+          });
+          console.log('📊 [DataLayer] remove_from_cart', { ecommerce: { currency: "USD", value: 49.99, items: [{ item_id: "SKU_001", quantity: 1 }] } });
+        }
+
+        /* VIEW CART */
+        function trackViewCart() {
+          dataLayer.push({
+            event: "view_cart",
+            ecommerce: {
+              currency: "USD",
+              value: 49.99,
+              items: [{
+                item_id: "SKU_001",
+                item_name: "Wireless Headphones",
+                price: 49.99,
+                quantity: 1
+              }]
+            }
+          });
+          console.log('📊 [DataLayer] view_cart', { ecommerce: { currency: "USD", value: 49.99 } });
+        }
+
+        /* BEGIN CHECKOUT */
+        function trackBeginCheckout() {
+          dataLayer.push({
+            event: "begin_checkout",
+            ecommerce: {
+              currency: "USD",
+              value: 49.99,
+              items: [{
+                item_id: "SKU_001",
+                item_name: "Wireless Headphones",
+                price: 49.99,
+                quantity: 1
+              }]
+            }
+          });
+          console.log('📊 [DataLayer] begin_checkout', { ecommerce: { currency: "USD", value: 49.99 } });
+        }
+
+        /* ADD SHIPPING INFO */
+        function trackAddShippingInfo() {
+          dataLayer.push({
+            event: "add_shipping_info",
+            ecommerce: {
+              shipping_tier: "Standard",
+              currency: "USD",
+              value: 49.99
+            }
+          });
+          console.log('📊 [DataLayer] add_shipping_info', { ecommerce: { shipping_tier: "Standard", currency: "USD", value: 49.99 } });
+        }
+
+        /* ADD PAYMENT INFO */
+        function trackAddPaymentInfo() {
+          dataLayer.push({
+            event: "add_payment_info",
+            ecommerce: {
+              payment_type: "Credit Card",
+              currency: "USD",
+              value: 49.99
+            }
+          });
+          console.log('📊 [DataLayer] add_payment_info', { ecommerce: { payment_type: "Credit Card", currency: "USD", value: 49.99 } });
+        }
+
+        /* PURCHASE */
+        function trackPurchase() {
+          dataLayer.push({
+            event: "purchase",
+            ecommerce: {
+              transaction_id: "ORDER_12345",
+              affiliation: "Demo Store",
+              value: 49.99,
+              tax: 2.50,
+              shipping: 5.00,
+              currency: "USD",
+              items: [{
+                item_id: "SKU_001",
+                item_name: "Wireless Headphones",
+                item_category: "Electronics",
+                item_brand: "DemoBrand",
+                price: 49.99,
+                quantity: 1
+              }]
+            }
+          });
+          console.log('📊 [DataLayer] purchase', { ecommerce: { transaction_id: "ORDER_12345", value: 49.99 } });
+        }
+
+        /* GENERATE LEAD */
+        function trackLead() {
+          dataLayer.push({
+            event: "generate_lead",
+            lead_type: "Contact Form",
+            value: 10
+          });
+          console.log('📊 [DataLayer] generate_lead', { lead_type: "Contact Form", value: 10 });
+        }
+
+        /* SEARCH */
+        function trackSearch() {
+          dataLayer.push({
+            event: "search",
+            search_term: "wireless headphones"
+          });
+          console.log('📊 [DataLayer] search', { search_term: "wireless headphones" });
+        }
+
+        /* LOGIN */
+        function trackLogin() {
+          dataLayer.push({
+            event: "login",
+            method: "email"
+          });
+          console.log('📊 [DataLayer] login', { method: "email" });
+        }
+
+        /* SIGNUP */
+        function trackSignup() {
+          dataLayer.push({
+            event: "sign_up",
+            method: "email"
+          });
+          console.log('📊 [DataLayer] sign_up', { method: "email" });
+        }
+
+        // ==========================================
+        // EXISTING HELPER (kept for compatibility)
+        // ==========================================
         function trackEvent(eventName, ecommerce = null) {
             const payload = { event: eventName };
             if (ecommerce) payload.ecommerce = ecommerce;
@@ -220,11 +444,7 @@
         // fbq('track', 'PageView');
 
         // Initial page_view
-        trackEvent('page_view', {
-            page_title: document.title,
-            page_location: window.location.href,
-            page_path: window.location.pathname
-        });
+        trackPageView();
     </script>
 
     <div id="root"></div>
@@ -419,6 +639,63 @@
                 bolt: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
             };
             return icons[name] || null;
+        };
+
+        // ==========================================
+        // TEST BUTTONS COMPONENT
+        // ==========================================
+        const TestButtons = () => {
+            const [toast, setToast] = useState(null);
+
+            const showToast = (message) => {
+                setToast(message);
+                setTimeout(() => setToast(null), 2000);
+            };
+
+            const handleClick = (fn, label) => {
+                fn();
+                showToast(`✅ ${label} event pushed to dataLayer`);
+            };
+
+            const buttons = [
+                { label: "View Product", fn: window.trackViewItem, className: "ecommerce" },
+                { label: "Add To Cart", fn: window.trackAddToCart, className: "ecommerce" },
+                { label: "Remove From Cart", fn: window.trackRemoveFromCart, className: "ecommerce" },
+                { label: "View Cart", fn: window.trackViewCart, className: "ecommerce" },
+                { label: "Begin Checkout", fn: window.trackBeginCheckout, className: "ecommerce" },
+                { label: "Add Shipping", fn: window.trackAddShippingInfo, className: "ecommerce" },
+                { label: "Add Payment", fn: window.trackAddPaymentInfo, className: "ecommerce" },
+                { label: "Purchase", fn: window.trackPurchase, className: "ecommerce" },
+                { label: "Generate Lead", fn: window.trackLead, className: "lead" },
+                { label: "Search", fn: window.trackSearch, className: "lead" },
+                { label: "Login", fn: window.trackLogin, className: "user" },
+                { label: "Sign Up", fn: window.trackSignup, className: "user" },
+            ];
+
+            return (
+                <div className="test-buttons-container rounded-2xl p-6 mb-8">
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="text-sm font-bold text-slate-700">🧪 Test Events:</span>
+                        <span className="text-xs text-slate-500">Click any button to push a demo event to dataLayer</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {buttons.map((btn, i) => (
+                            <button
+                                key={i}
+                                onClick={() => handleClick(btn.fn, btn.label)}
+                                className={`test-btn ${btn.className}`}
+                            >
+                                {btn.label}
+                            </button>
+                        ))}
+                    </div>
+                    {toast && (
+                        <div className="mt-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm px-4 py-2 rounded-lg animate-fadeIn">
+                            {toast}
+                        </div>
+                    )}
+                </div>
+            );
         };
 
         // ==========================================
@@ -793,7 +1070,7 @@
                 expiry: '',
                 cvv: ''
             });
-            const [step, setStep] = useState(1); // 1: shipping, 2: payment
+            const [step, setStep] = useState(1);
             const shippingTracked = useRef(false);
             const paymentTracked = useRef(false);
 
@@ -1419,6 +1696,9 @@
                     {/* PRODUCTS */}
                     <section id="products" className="py-16">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                            {/* Test Buttons */}
+                            <TestButtons />
+
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                                 <div>
                                     <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2">Featured Products</h2>
